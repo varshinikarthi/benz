@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+text-align:center;
+background:linear-gradient(120deg,#ff9a9e,#fad0c4);
+color:white;
+overflow-x:hidden;
+}
+
+/* intro screen */
+
+#intro{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+}
+
+/* main section */
+
+#main{
+display:none;
+padding:20px;
+}
+
+button{
+padding:12px 25px;
+border:none;
+border-radius:25px;
+background:#ff4081;
+color:white;
+font-size:16px;
+cursor:pointer;
+margin:10px;
+}
+
+/* typing message */
+
+#message{
+font-size:26px;
+margin:20px;
+min-height:40px;
+}
+
+/* gallery */
+
+.gallery img{
+width:200px;
+border-radius:15px;
+margin:10px;
+}
+
+/* secret messages */
+
+.secret{
+display:none;
+font-size:20px;
+margin:15px;
+}
+
+/* balloons */
+
+.balloon{
+position:absolute;
+bottom:-100px;
+width:40px;
+height:60px;
+border-radius:50%;
+animation:float 6s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0)}
+100%{transform:translateY(-120vh)}
+}
+
+/* cake */
+
+#cake{
+font-size:90px;
+cursor:pointer;
+margin-top:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- intro -->
+
+<div id="intro">
+
+<h1>🎁 I Have a Surprise For You</h1>
+
+<button onclick="startSurprise()">Open Your Gift</button>
+
+</div>
+
+<!-- main birthday page -->
+
+<div id="main">
+
+<h1>🎉 Happy Birthday 🎉</h1>
+
+<div id="message"></div>
+
+<h2>📸 Our Memories</h2>
+
+<div class="gallery">
+
+<img src="https://picsum.photos/200?1">
+<img src="https://picsum.photos/200?2">
+<img src="https://picsum.photos/200?3">
+
+</div>
+
+<h2>💌 Secret Messages</h2>
+
+<button onclick="showMsg(1)">Open Message 1</button>
+<button onclick="showMsg(2)">Open Message 2</button>
+<button onclick="showMsg(3)">Final Surprise</button>
+
+<div id="msg1" class="secret">✨ You make life brighter!</div>
+<div id="msg2" class="secret">💖 I hope this year brings you happiness.</div>
+<div id="msg3" class="secret">🎂 Today is your special day. Enjoy every moment!</div>
+
+<h2>🎂 Cut the Cake</h2>
+
+<div id="cake" onclick="cutCake()">🎂</div>
+
+<p id="cakeMsg"></p>
+
+</div>
+
+<!-- simple audio -->
+
+<audio id="music">
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8d55c3e2b.mp3?filename=happy-birthday-334876.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+/* start surprise */
+
+function startSurprise(){
+
+document.getElementById("intro").style.display="none";
+document.getElementById("main").style.display="block";
+
+let music=document.getElementById("music");
+music.play();
+
+typeMessage();
+createBalloons();
+
+/* stop after 2 minutes */
+
+setTimeout(function(){
+
+music.pause();
+removeBalloons();
+
+},120000);
+
+}
+
+/* typing message */
+
+let text="Wishing you the happiest birthday ever! May your dreams come true! 💖";
+let i=0;
+
+function typeMessage(){
+
+if(i<text.length){
+
+document.getElementById("message").innerHTML+=text.charAt(i);
+i++;
+setTimeout(typeMessage,50);
+
+}
+
+}
+
+/* secret messages */
+
+function showMsg(n){
+
+document.getElementById("msg"+n).style.display="block";
+
+}
+
+/* cake cutting */
+
+function cutCake(){
+
+document.getElementById("cake").innerHTML="🍰";
+document.getElementById("cakeMsg").innerHTML="🎉 Cake Cut! Happy Birthday! 🎉";
+
+}
+
+/* balloons */
+
+function createBalloons(){
+
+for(let i=0;i<25;i++){
+
+let balloon=document.createElement("div");
+
+balloon.className="balloon";
+
+balloon.style.left=Math.random()*100+"vw";
+balloon.style.background="hsl("+Math.random()*360+",70%,60%)";
+
+document.body.appendChild(balloon);
+
+}
+
+}
+
+/* remove balloons */
+
+function removeBalloons(){
+
+let balloons=document.querySelectorAll(".balloon");
+
+balloons.forEach(b=>b.remove());
+
+}
+
+</script>
+
+</body>
+</html>
+
